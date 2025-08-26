@@ -1,0 +1,51 @@
+body {
+  background: #f5f7fa;
+  color: #000000 !important; /* Forzar texto negro en todo el cuerpo */
+}
+
+.login-box {
+  width: 400px;
+  margin: 5% auto;
+}
+
+.login-card-body {
+  border-radius: 12px;
+  padding: 30px;
+}
+
+.btn-primary {
+  background-color: #2563eb;
+  border-color: #2563eb;
+}
+
+.btn-primary:hover {
+  background-color: #1d4ed8;
+  border-color: #1d4ed8;
+}
+
+body {
+  background-color: #f4f6f9;
+}
+.card {
+  border-radius: 15px;
+}
+
+/* Nuevos estilos para forzar texto negro */
+h1, h2, h3, h4, h5, h6,
+p, span, label, li, ul, 
+.text-muted, .brand-text, 
+.login-page, .hold-transition {
+  color: #000000 !important;
+}
+
+/* Estilos específicos para el texto de bienvenida */
+.text-center h2,
+.text-center h4,
+.text-center p {
+  color: #000000 !important;
+}
+
+/* Estilos para los iconos si es necesario */
+.fas, .fa-wrench, .fa-key {
+  color: #2563eb !important; /* Mantener azul los iconos */
+}
