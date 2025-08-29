@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CEJO - Historial de Clientes</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- AdminLTE CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+    <div class="wrapper">
+        <!-- Navbar -->
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light d-flex justify-content-between">
+            <!-- Left navbar links -->
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+                </li>
+            </ul>
+            
+            <!-- Brand - Centered -->
+            <div class="position-absolute start-50 translate-middle-x">
+                <span class="navbar-brand mb-0 h1">
+                    <i class="fas fa-tools text-primary"></i> CEJO - Recepcion
+                </span>
+            </div>
+            
+            <!-- Right navbar links -->
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                        <i class="fas fa-user"></i> Admin
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="../cejo-login/login.html">
+                            <i class="fas fa-sign-out-alt me-2"></i> Cerrar Sesión
+                        </a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        
+        <!-- Main Sidebar Container -->
+        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <!-- Sidebar Menu -->
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
+                        <li class="nav-item">
+                            <a href="recepcion.html" class="nav-link">
+                                <i class="nav-icon fas fa-desktop"></i>
+                                <p>Recepcion</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="historial-clientes.html" class="nav-link active">
+                                <i class="nav-icon fas fa-users"></i>
+                                <p>Historial de Clientes</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="historial-equipos.html" class="nav-link">
+                                <i class="nav-icon fas fa-laptop"></i>
+                                <p>Historial de Equipos</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="ordenes-trabajo.html" class="nav-link">
+                                <i class="nav-icon fas fa-clipboard-list"></i>
+                                <p>Ordenes de Trabajos</p>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- Content Wrapper -->
+        <div class="content-wrapper">
+            <!-- Content Header -->
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Historial de Clientes</h1>
+                            <p class="text-muted">Consulta y gestión de clientes registrados</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="recepcion.html">Inicio</a></li>
+                                <li class="breadcrumb-item active">Historial de Clientes</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <!-- Filtros de búsqueda -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title"><i class="fas fa-search"></i> Filtros de Búsqueda</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="filtroDocumento">Número de Documento</label>
+                                        <input type="text" class="form-control" id="filtroDocumento" placeholder="Buscar por documento">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="filtroNombre">Nombre del Cliente</label>
+                                        <input type="text" class="form-control" id="filtroNombre" placeholder="Buscar por nombre">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="filtroTelefono">Teléfono</label>
+                                        <input type="text" class="form-control" id="filtroTelefono" placeholder="Buscar por teléfono">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="filtroEmail">Correo Electrónico</label>
+                                        <input type="email" class="form-control" id="filtroEmail" placeholder="Buscar por email">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button type="button" class="btn btn-primary" id="buscarClientes">
+                                        <i class="fas fa-search"></i> Buscar
+                                    </button>
+                                    <button type="button" class="btn btn-secondary" id="limpiarFiltros">
+                                        <i class="fas fa-eraser"></i> Limpiar Filtros
+                                    </button>
+                                    <button type="button" class="btn btn-success" id="exportarExcel">
+                                        <i class="fas fa-file-excel"></i> Exportar a Excel
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tabla de clientes -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title"><i class="fas fa-users"></i> Lista de Clientes</h3>
+                            <div class="card-tools">
+                                <span class="badge badge-primary" id="totalClientes">0 clientes</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table id="tablaClientes" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Documento</th>
+                                            <th>Nombre Completo</th>
+                                            <th>Teléfono</th>
+                                            <th>Email</th>
+                                            <th>Fecha Registro</th>
+                                            <th>Servicios</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Los datos se cargarán dinámicamente -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Footer -->
+        <footer class="main-footer">
+            <strong>Copyright &copy; 2025 RoninTech.</strong>
+            Servicios personalizado de sistemas informáticos a tu medida.
+            <div class="float-right d-none d-sm-inline-block">
+                <b>Términos y Condiciones</b> | <b>Política de Privacidad</b> | <b>Soporte</b>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Modal para ver detalles del cliente -->
+    <div class="modal fade" id="modalDetalleCliente" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"><i class="fas fa-user"></i> Detalles del Cliente</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5>Información Personal</h5>
+                            <table class="table table-sm">
+                                <tr><td><strong>Documento:</strong></td><td id="detalleDocumento"></td></tr>
+                                <tr><td><strong>Nombre:</strong></td><td id="detalleNombre"></td></tr>
+                                <tr><td><strong>Teléfono:</strong></td><td id="detalleTelefono"></td></tr>
+                                <tr><td><strong>Email:</strong></td><td id="detalleEmail"></td></tr>
+                                <tr><td><strong>Dirección:</strong></td><td id="detalleDireccion"></td></tr>
+                                <tr><td><strong>Fecha Registro:</strong></td><td id="detalleFechaRegistro"></td></tr>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>Historial de Servicios</h5>
+                            <div id="historialServicios">
+                                <!-- Se cargará dinámicamente -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="editarCliente">
+                        <i class="fas fa-edit"></i> Editar Cliente
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        Cerrar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para editar cliente -->
+    <div class="modal fade" id="modalEditarCliente" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"><i class="fas fa-edit"></i> Editar Cliente</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form id="formEditarCliente">
+                    <div class="modal-body">
+                        <input type="hidden" id="editClienteId">
+                        <div class="form-group">
+                            <label for="editDocumento">Número de Documento *</label>
+                            <input type="text" class="form-control" id="editDocumento" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editNombre">Nombre Completo *</label>
+                            <input type="text" class="form-control" id="editNombre" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editTelefono">Teléfono *</label>
+                            <input type="tel" class="form-control" id="editTelefono" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editEmail">Correo Electrónico</label>
+                            <input type="email" class="form-control" id="editEmail">
+                        </div>
+                        <div class="form-group">
+                            <label for="editDireccion">Dirección</label>
+                            <textarea class="form-control" id="editDireccion" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Guardar Cambios
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            Cancelar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- AdminLTE JS -->
+    <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
+    
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    
+    <!-- Custom JS -->
+    <script src="assets/js/historial-clientes.js"></script>
+</body>
+</html>
