@@ -10,11 +10,12 @@ $(document).ready(function() {
     // Setup event listeners
     setupEventListeners();
     
-    // Initialize DataTable
-    initializeDataTable();
-    
-    // Load initial data
-    cargarEquipos();
+    // Initialize DataTable with a small delay to ensure DOM is ready
+    setTimeout(function() {
+        initializeDataTable();
+        // Load initial data after DataTable is initialized
+        cargarEquipos();
+    }, 100);
 });
 
 function initializeApp() {
@@ -53,11 +54,7 @@ function setupEventListeners() {
         mostrarModalCambiarEstado(equipoId);
     });
     
-    // Ver orden de trabajo
-    $('#verOrdenTrabajo').on('click', function() {
-        const equipoId = $('#detalleOrden').text();
-        verOrdenTrabajo(equipoId);
-    });
+
     
     // Form submit para cambiar estado
     $('#formCambiarEstado').on('submit', function(e) {
@@ -72,7 +69,7 @@ function setupEventListeners() {
         }
     });
     
-    $('#filtroTipoEquipo, #filtroEstado').on('change', function() {
+    $('#filtroTipoEquipo, #filtroEstado, #filtroTecnico, #filtroGarantia').on('change', function() {
         if (tablaEquipos) {
             tablaEquipos.draw();
         }
@@ -109,10 +106,10 @@ function initializeDataTable() {
         },
         responsive: true,
         pageLength: 25,
-        order: [[7, 'desc']], // Ordenar por fecha de ingreso descendente
+        order: [[8, 'desc']], // Ordenar por fecha de ingreso descendente
         columnDefs: [
             {
-                targets: [8], // Columna de acciones
+                targets: [9], // Columna de acciones
                 orderable: false,
                 searchable: false
             },
@@ -120,6 +117,12 @@ function initializeDataTable() {
                 targets: [5], // Columna de estado
                 render: function(data, type, row) {
                     return getEstadoBadge(data);
+                }
+            },
+            {
+                targets: [7], // Columna de garantía
+                render: function(data, type, row) {
+                    return getGarantiaBadge(data);
                 }
             }
         ],
@@ -140,6 +143,8 @@ function initializeDataTable() {
         const filtroCliente = $('#filtroCliente').val().toLowerCase();
         const filtroTipoEquipo = $('#filtroTipoEquipo').val();
         const filtroEstado = $('#filtroEstado').val();
+        const filtroTecnico = $('#filtroTecnico').val();
+        const filtroGarantia = $('#filtroGarantia').val();
         const filtroFechaDesde = $('#filtroFechaDesde').val();
         const filtroFechaHasta = $('#filtroFechaHasta').val();
         
@@ -147,13 +152,20 @@ function initializeDataTable() {
         const cliente = data[1].toLowerCase();
         const tipo = data[2].toLowerCase();
         const estado = data[5].toLowerCase();
+        const tecnico = data[6] ? data[6].toLowerCase() : '';
         const fechaIngreso = data[7];
+        
+        // Get equipment data for guarantee filter
+        const equipoData = equiposData.find(e => e.orden === data[0]);
+        const garantia = equipoData ? equipoData.garantia : '';
         
         // Filter by text fields
         if (filtroOrden !== '' && !orden.includes(filtroOrden)) return false;
         if (filtroCliente !== '' && !cliente.includes(filtroCliente)) return false;
         if (filtroTipoEquipo !== '' && !tipo.includes(filtroTipoEquipo)) return false;
         if (filtroEstado !== '' && !estado.includes(filtroEstado)) return false;
+        if (filtroTecnico !== '' && !tecnico.includes(filtroTecnico.toLowerCase())) return false;
+        if (filtroGarantia !== '' && garantia !== filtroGarantia) return false;
         
         // Filter by date range
         if (filtroFechaDesde !== '' || filtroFechaHasta !== '') {
@@ -170,6 +182,12 @@ function initializeDataTable() {
 }
 
 function cargarEquipos() {
+    // Check if DataTable is initialized
+    if (!tablaEquipos) {
+        console.error('DataTable not initialized yet');
+        return;
+    }
+    
     // Show loading state
     showLoading(true);
     
@@ -189,7 +207,8 @@ function cargarEquipos() {
                 modelo: 'Pavilion 15',
                 problema: 'No enciende, posible problema con la fuente de poder',
                 estado: 'reparacion',
-                tecnico: 'Juan Técnico',
+                tecnico: 'juan_perez',
+                garantia: 'vigente',
                 fechaIngreso: '2024-01-15',
                 fotos: ['foto1.jpg', 'foto2.jpg']
             },
@@ -205,7 +224,8 @@ function cargarEquipos() {
                 modelo: 'iPhone 12',
                 problema: 'Pantalla rota, táctil no responde',
                 estado: 'diagnostico',
-                tecnico: 'María Técnico',
+                tecnico: 'maria_garcia',
+                garantia: 'vencida',
                 fechaIngreso: '2024-01-20',
                 fotos: ['foto3.jpg']
             },
@@ -221,7 +241,8 @@ function cargarEquipos() {
                 modelo: 'OptiPlex 7090',
                 problema: 'Lentitud extrema, posible virus',
                 estado: 'completado',
-                tecnico: 'Carlos Técnico',
+                tecnico: 'carlos_rodriguez',
+                garantia: 'vigente',
                 fechaIngreso: '2024-02-01',
                 fotos: []
             },
@@ -237,7 +258,8 @@ function cargarEquipos() {
                 modelo: 'Galaxy Tab S8',
                 problema: 'No carga la batería',
                 estado: 'pruebas',
-                tecnico: 'Ana Técnico',
+                tecnico: 'ana_martinez',
+                garantia: 'sin_garantia',
                 fechaIngreso: '2024-02-10',
                 fotos: ['foto4.jpg', 'foto5.jpg', 'foto6.jpg']
             },
@@ -254,6 +276,7 @@ function cargarEquipos() {
                 problema: 'No imprime, error de tinta',
                 estado: 'recibido',
                 tecnico: '',
+                garantia: 'vigente',
                 fechaIngreso: '2024-02-15',
                 fotos: ['foto7.jpg']
             }
@@ -272,6 +295,7 @@ function cargarEquipos() {
                 truncateText(equipo.problema, 50),
                 equipo.estado,
                 equipo.tecnico || 'Sin asignar',
+                equipo.garantia,
                 formatDate(equipo.fechaIngreso),
                 generateActionButtons(equipo.id)
             ];
@@ -310,9 +334,7 @@ function generateActionButtons(equipoId) {
             <button type="button" class="btn btn-sm btn-warning" onclick="cambiarEstadoEquipo(${equipoId})" title="Cambiar estado">
                 <i class="fas fa-edit"></i>
             </button>
-            <button type="button" class="btn btn-sm btn-success" onclick="verOrdenTrabajo('${equiposData.find(e => e.id === equipoId)?.orden}')" title="Orden de trabajo">
-                <i class="fas fa-clipboard-list"></i>
-            </button>
+
         </div>
     `;
 }
@@ -504,11 +526,7 @@ function guardarCambioEstado() {
     }, 1500);
 }
 
-function verOrdenTrabajo(orden) {
-    // Redirect to work orders page with specific order
-    sessionStorage.setItem('ordenSeleccionada', orden);
-    window.location.href = 'ordenes-trabajo.html';
-}
+
 
 function buscarEquipos() {
     if (tablaEquipos) {
@@ -519,7 +537,7 @@ function buscarEquipos() {
 
 function limpiarFiltros() {
     $('#filtroOrden, #filtroCliente').val('');
-    $('#filtroTipoEquipo, #filtroEstado').val('');
+    $('#filtroTipoEquipo, #filtroEstado, #filtroTecnico, #filtroGarantia').val('');
     $('#filtroFechaDesde, #filtroFechaHasta').val('');
     
     if (tablaEquipos) {
@@ -587,6 +605,31 @@ function getEstadoBadge(estado) {
     const clase = getEstadoClass(estado);
     const texto = getEstadoText(estado);
     return `<span class="badge badge-${clase}">${texto}</span>`;
+}
+
+function getGarantiaBadge(garantia) {
+    let clase = '';
+    let icono = '';
+    
+    switch(garantia) {
+        case 'Vigente':
+            clase = 'success';
+            icono = '<i class="fas fa-shield-alt"></i> ';
+            break;
+        case 'Vencida':
+            clase = 'danger';
+            icono = '<i class="fas fa-shield-alt"></i> ';
+            break;
+        case 'Sin Garantía':
+            clase = 'secondary';
+            icono = '<i class="fas fa-times"></i> ';
+            break;
+        default:
+            clase = 'secondary';
+            icono = '<i class="fas fa-question"></i> ';
+    }
+    
+    return `<span class="badge badge-${clase}">${icono}${garantia}</span>`;
 }
 
 function truncateText(text, maxLength) {

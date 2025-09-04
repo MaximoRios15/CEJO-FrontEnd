@@ -40,6 +40,7 @@
             
             <!-- Right navbar links -->
             <ul class="navbar-nav">
+
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
                         <i class="fas fa-user"></i> Admin
@@ -78,10 +79,19 @@
                                 <p>Historial de Equipos</p>
                             </a>
                         </li>
+
                         <li class="nav-item">
-                            <a href="ordenes-trabajo.html" class="nav-link">
-                                <i class="nav-icon fas fa-clipboard-list"></i>
-                                <p>Ordenes de Trabajos</p>
+                            <a href="pedido-repuestos.html" class="nav-link">
+                                <i class="nav-icon fas fa-cogs"></i>
+                                <p>Pedido de Repuestos</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="tareas-pendientes.html" class="nav-link">
+                                <i class="nav-icon fas fa-tasks"></i>
+                                <p>Tareas Pendientes
+                                    <span class="badge badge-danger right" style="display: none;">0</span>
+                                </p>
                             </a>
                         </li>
                     </ul>
@@ -174,7 +184,7 @@
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="filtroOrden">Número de Orden</label>
+                                        <label for="filtroOrden">Número de BR / Orden</label>
                                         <input type="text" class="form-control" id="filtroOrden" placeholder="Buscar por orden">
                                     </div>
                                 </div>
@@ -186,7 +196,7 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="filtroTipoEquipo">Tipo de Equipo</label>
+                                        <label for="filtroTipoEquipo">Categoria del Equipo</label>
                                         <select class="form-control" id="filtroTipoEquipo">
                                             <option value="">Todos los tipos</option>
                                             <option value="laptop">Laptop</option>
@@ -217,6 +227,30 @@
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group">
+                                        <label for="filtroTecnico">Técnico</label>
+                                        <select class="form-control" id="filtroTecnico">
+                                            <option value="">Todos los técnicos</option>
+                                            <option value="juan_perez">Juan Pérez</option>
+                                            <option value="maria_garcia">María García</option>
+                                            <option value="carlos_rodriguez">Carlos Rodríguez</option>
+                                            <option value="ana_martinez">Ana Martínez</option>
+                                            <option value="luis_gonzalez">Luis González</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="filtroGarantia">Garantía</label>
+                                        <select class="form-control" id="filtroGarantia">
+                                            <option value="">Todas las garantías</option>
+                                            <option value="vigente">Vigente</option>
+                                            <option value="vencida">Vencida</option>
+                                            <option value="sin_garantia">Sin Garantía</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
                                         <label for="filtroFechaDesde">Fecha Desde</label>
                                         <input type="date" class="form-control" id="filtroFechaDesde">
                                     </div>
@@ -227,7 +261,9 @@
                                         <input type="date" class="form-control" id="filtroFechaHasta">
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
                                     <div class="form-group">
                                         <label>&nbsp;</label>
                                         <div class="d-block">
@@ -267,6 +303,7 @@
                                             <th>Problema</th>
                                             <th>Estado</th>
                                             <th>Técnico</th>
+                                            <th>Garantía</th>
                                             <th>Fecha Ingreso</th>
                                             <th>Acciones</th>
                                         </tr>
@@ -344,9 +381,7 @@
                     <button type="button" class="btn btn-warning" id="cambiarEstado">
                         <i class="fas fa-edit"></i> Cambiar Estado
                     </button>
-                    <button type="button" class="btn btn-info" id="verOrdenTrabajo">
-                        <i class="fas fa-clipboard-list"></i> Ver Orden de Trabajo
-                    </button>
+
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                         Cerrar
                     </button>
@@ -421,6 +456,17 @@
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
     
     <!-- Custom JS -->
+    <script src="assets/js/usuario.js"></script>
     <script src="assets/js/historial-equipos.js"></script>
+    
+    <!-- Notification System -->
+    <style>
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+    </style>
+    
 </body>
 </html>

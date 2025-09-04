@@ -20,7 +20,7 @@ document.getElementById("loginForm").addEventListener("submit", function(e){
   submitBtn.textContent = 'Iniciando sesión...';
   submitBtn.disabled = true;
 
-  fetch('http://localhost/CEJO/CEJO-BackEnd/public/login', {
+  fetch('/CEJO/CEJO-BackEnd/public/index.php/login', {
     method: 'POST',
     body: formData,
     headers: {

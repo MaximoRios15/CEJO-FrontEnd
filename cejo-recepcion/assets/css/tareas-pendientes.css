@@ -1,0 +1,36 @@
+/* CSS específico para tareas-pendientes.html */
+
+.task-card {
+    transition: all 0.3s ease;
+    border-left: 4px solid #007bff;
+}
+
+.task-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.task-card.urgent {
+    border-left-color: #dc3545;
+}
+
+.task-card.high {
+    border-left-color: #fd7e14;
+}
+
+.task-card.completed {
+    border-left-color: #28a745;
+    opacity: 0.8;
+}
+
+.priority-badge {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+}
+
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1055;
+}

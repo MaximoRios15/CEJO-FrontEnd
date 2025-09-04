@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CEJO - Tareas Pendientes</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- AdminLTE CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/tareas-pendientes.css">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+    <div class="wrapper">
+        <!-- Navbar -->
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light d-flex justify-content-between">
+            <!-- Left navbar links -->
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+                </li>
+            </ul>
+            
+            <!-- Brand - Centered -->
+            <div class="position-absolute start-50 translate-middle-x">
+                <span class="navbar-brand mb-0 h1">
+                    <i class="fas fa-tools text-primary"></i> CEJO - Recepcion
+                </span>
+            </div>
+            
+            <!-- Right navbar links -->
+            <ul class="navbar-nav">
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                        <i class="fas fa-user"></i> Admin
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="../cejo-login/login.html">
+                            <i class="fas fa-sign-out-alt me-2"></i> Cerrar Sesión
+                        </a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        
+        <!-- Main Sidebar Container -->
+        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <!-- Sidebar Menu -->
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
+                        <li class="nav-item">
+                            <a href="recepcion.html" class="nav-link">
+                                <i class="nav-icon fas fa-desktop"></i>
+                                <p>Recepcion</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="historial-clientes.html" class="nav-link">
+                                <i class="nav-icon fas fa-users"></i>
+                                <p>Historial de Clientes</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="historial-equipos.html" class="nav-link">
+                                <i class="nav-icon fas fa-laptop"></i>
+                                <p>Historial de Equipos</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="pedido-repuestos.html" class="nav-link">
+                                <i class="nav-icon fas fa-cogs"></i>
+                                <p>Pedido de Repuestos</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="tareas-pendientes.html" class="nav-link active">
+                                <i class="nav-icon fas fa-tasks"></i>
+                                <p>Tareas Pendientes
+                                    <span class="badge badge-danger right">5</span>
+                                </p>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+        
+        <!-- Content Wrapper -->
+        <div class="content-wrapper">
+            <!-- Content Header -->
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1 class="m-0">Tareas Pendientes</h1>
+                            <p class="text-muted">Gestión de equipos listos y contacto con clientes</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="recepcion.html">Inicio</a></li>
+                                <li class="breadcrumb-item active">Tareas Pendientes</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <!-- Resumen de Tareas -->
+                    <div class="row">
+                        <div class="col-lg-3 col-6">
+                            <div class="small-box bg-info">
+                                <div class="inner">
+                                    <h3 id="equiposListos">5</h3>
+                                    <p>Equipos Listos</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <a href="#equiposListosSection" class="small-box-footer">
+                                    Ver detalles <i class="fas fa-arrow-circle-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-3 col-6">
+                            <div class="small-box bg-warning">
+                                <div class="inner">
+                                    <h3 id="clientesPendientes">3</h3>
+                                    <p>Clientes por Contactar</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fas fa-phone"></i>
+                                </div>
+                                <a href="#clientesPendientesSection" class="small-box-footer">
+                                    Ver detalles <i class="fas fa-arrow-circle-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-3 col-6">
+                            <div class="small-box bg-success">
+                                <div class="inner">
+                                    <h3 id="contactosHoy">8</h3>
+                                    <p>Contactos Realizados Hoy</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fas fa-phone-alt"></i>
+                                </div>
+                                <a href="#historialContactos" class="small-box-footer">
+                                    Ver historial <i class="fas fa-arrow-circle-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-3 col-6">
+                            <div class="small-box bg-danger">
+                                <div class="inner">
+                                    <h3 id="tareasPendientes">2</h3>
+                                    <p>Tareas Urgentes</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                </div>
+                                <a href="#tareasUrgentes" class="small-box-footer">
+                                    Ver urgentes <i class="fas fa-arrow-circle-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Filtros -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">
+                                        <i class="fas fa-filter mr-2"></i>Filtros
+                                    </h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="filtroEstado">Estado</label>
+                                                <select class="form-control" id="filtroEstado">
+                                                    <option value="">Todos los estados</option>
+                                                    <option value="listo">Listo para entrega</option>
+                                                    <option value="contactado">Cliente contactado</option>
+                                                    <option value="pendiente">Pendiente de contacto</option>
+                                                    <option value="entregado">Entregado</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="filtroPrioridad">Garantías</label>
+                                                <select class="form-control" id="filtroPrioridad">
+                                                    <option value="">Todas las garantías</option>
+                                                    <option value="urgente">T1</option>
+                                                    <option value="alta">T2</option>
+                                                    <option value="media">T3</option>
+                                                    <option value="baja">T4</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="filtroFecha">Fecha</label>
+                                                <input type="date" class="form-control" id="filtroFecha">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="buscarCliente">Buscar Cliente</label>
+                                                <input type="text" class="form-control" id="buscarCliente" placeholder="Nombre o teléfono...">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <button type="button" class="btn btn-primary" onclick="aplicarFiltros()">
+                                                <i class="fas fa-search mr-2"></i>Aplicar Filtros
+                                            </button>
+                                            <button type="button" class="btn btn-secondary ml-2" onclick="limpiarFiltros()">
+                                                <i class="fas fa-broom mr-2"></i>Limpiar
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Lista de Tareas -->
+                    <div class="row" id="listaTareas">
+                        <!-- Equipos Listos para Entrega -->
+                        <div class="col-md-6">
+                            <div class="card task-card urgent">
+                                <div class="card-header bg-danger">
+                                    <h3 class="card-title text-white">
+                                        <i class="fas fa-check-circle mr-2"></i>Equipo Listo - URGENTE
+                                    </h3>
+                                    <div class="card-tools">
+                                        <span class="badge badge-light priority-badge">URGENTE</span>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <h5><strong>ORD-2025-001</strong></h5>
+                                            <p class="mb-1"><strong>Cliente:</strong> Juan Pérez</p>
+                                            <p class="mb-1"><strong>Teléfono:</strong> +57 300 123 4567</p>
+                                            <p class="mb-1"><strong>Equipo:</strong> Laptop HP Pavilion</p>
+                                            <p class="mb-1"><strong>Problema:</strong> Pantalla dañada</p>
+                                            <p class="mb-1"><strong>Fecha finalización:</strong> Hace 2 días</p>
+                                        </div>
+                                        <div class="col-md-4 text-center">
+                                            <div class="btn-group-vertical" role="group">
+                                                <button type="button" class="btn btn-success btn-sm" onclick="contactarCliente('ORD-2025-001')">
+                                                    <i class="fas fa-phone"></i> Contactar
+                                                </button>
+                                                <button type="button" class="btn btn-info btn-sm" onclick="verDetalles('ORD-2025-001')">
+                                                    <i class="fas fa-eye"></i> Ver Detalles
+                                                </button>
+                                                <button type="button" class="btn btn-warning btn-sm" onclick="marcarEntregado('ORD-2025-001')">
+                                                    <i class="fas fa-check"></i> Entregado
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="card task-card high">
+                                <div class="card-header bg-warning">
+                                    <h3 class="card-title">
+                                        <i class="fas fa-check-circle mr-2"></i>Equipo Listo
+                                    </h3>
+                                    <div class="card-tools">
+                                        <span class="badge badge-warning priority-badge">ALTA</span>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <h5><strong>ORD-2025-002</strong></h5>
+                                            <p class="mb-1"><strong>Cliente:</strong> María García</p>
+                                            <p class="mb-1"><strong>Teléfono:</strong> +57 301 987 6543</p>
+                                            <p class="mb-1"><strong>Equipo:</strong> iPhone 12</p>
+                                            <p class="mb-1"><strong>Problema:</strong> Batería agotada</p>
+                                            <p class="mb-1"><strong>Fecha finalización:</strong> Hace 1 día</p>
+                                        </div>
+                                        <div class="col-md-4 text-center">
+                                            <div class="btn-group-vertical" role="group">
+                                                <button type="button" class="btn btn-success btn-sm" onclick="contactarCliente('ORD-2025-002')">
+                                                    <i class="fas fa-phone"></i> Contactar
+                                                </button>
+                                                <button type="button" class="btn btn-info btn-sm" onclick="verDetalles('ORD-2025-002')">
+                                                    <i class="fas fa-eye"></i> Ver Detalles
+                                                </button>
+                                                <button type="button" class="btn btn-warning btn-sm" onclick="marcarEntregado('ORD-2025-002')">
+                                                    <i class="fas fa-check"></i> Entregado
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="card task-card">
+                                <div class="card-header bg-info">
+                                    <h3 class="card-title text-white">
+                                        <i class="fas fa-phone mr-2"></i>Cliente Contactado
+                                    </h3>
+                                    <div class="card-tools">
+                                        <span class="badge badge-info priority-badge">MEDIA</span>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <h5><strong>ORD-2025-003</strong></h5>
+                                            <p class="mb-1"><strong>Cliente:</strong> Carlos López</p>
+                                            <p class="mb-1"><strong>Teléfono:</strong> +57 302 456 7890</p>
+                                            <p class="mb-1"><strong>Equipo:</strong> Samsung Galaxy S21</p>
+                                            <p class="mb-1"><strong>Problema:</strong> Pantalla rota</p>
+                                            <p class="mb-1"><strong>Contactado:</strong> Hoy 10:30 AM</p>
+                                            <p class="mb-1"><strong>Estado:</strong> Viene mañana a recoger</p>
+                                        </div>
+                                        <div class="col-md-4 text-center">
+                                            <div class="btn-group-vertical" role="group">
+                                                <button type="button" class="btn btn-secondary btn-sm" disabled>
+                                                    <i class="fas fa-check"></i> Contactado
+                                                </button>
+                                                <button type="button" class="btn btn-info btn-sm" onclick="verDetalles('ORD-2025-003')">
+                                                    <i class="fas fa-eye"></i> Ver Detalles
+                                                </button>
+                                                <button type="button" class="btn btn-warning btn-sm" onclick="marcarEntregado('ORD-2025-003')">
+                                                    <i class="fas fa-check"></i> Entregado
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="card task-card completed">
+                                <div class="card-header bg-success">
+                                    <h3 class="card-title text-white">
+                                        <i class="fas fa-check-double mr-2"></i>Entregado
+                                    </h3>
+                                    <div class="card-tools">
+                                        <span class="badge badge-success priority-badge">COMPLETADO</span>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <h5><strong>ORD-2025-004</strong></h5>
+                                            <p class="mb-1"><strong>Cliente:</strong> Ana Rodríguez</p>
+                                            <p class="mb-1"><strong>Teléfono:</strong> +57 303 789 0123</p>
+                                            <p class="mb-1"><strong>Equipo:</strong> MacBook Air</p>
+                                            <p class="mb-1"><strong>Problema:</strong> Teclado defectuoso</p>
+                                            <p class="mb-1"><strong>Entregado:</strong> Hoy 2:15 PM</p>
+                                        </div>
+                                        <div class="col-md-4 text-center">
+                                            <div class="btn-group-vertical" role="group">
+                                                <button type="button" class="btn btn-success btn-sm" disabled>
+                                                    <i class="fas fa-check-double"></i> Entregado
+                                                </button>
+                                                <button type="button" class="btn btn-info btn-sm" onclick="verDetalles('ORD-2025-004')">
+                                                    <i class="fas fa-eye"></i> Ver Detalles
+                                                </button>
+                                                <button type="button" class="btn btn-secondary btn-sm" onclick="generarFactura('ORD-2025-004')">
+                                                    <i class="fas fa-file-invoice"></i> Factura
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Historial de Contactos -->
+                    <div class="row mt-4">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">
+                                        <i class="fas fa-history mr-2"></i>Historial de Contactos de Hoy
+                                    </h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Hora</th>
+                                                    <th>Orden</th>
+                                                    <th>Cliente</th>
+                                                    <th>Teléfono</th>
+                                                    <th>Estado</th>
+                                                    <th>Observaciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>2:15 PM</td>
+                                                    <td>ORD-2025-004</td>
+                                                    <td>Ana Rodríguez</td>
+                                                    <td>+57 303 789 0123</td>
+                                                    <td><span class="badge badge-success">Entregado</span></td>
+                                                    <td>Cliente recogió el equipo satisfactoriamente</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>1:45 PM</td>
+                                                    <td>ORD-2025-005</td>
+                                                    <td>Pedro Martínez</td>
+                                                    <td>+57 304 123 4567</td>
+                                                    <td><span class="badge badge-warning">Contactado</span></td>
+                                                    <td>Cliente vendrá mañana en la tarde</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>11:30 AM</td>
+                                                    <td>ORD-2025-006</td>
+                                                    <td>Laura Gómez</td>
+                                                    <td>+57 305 987 6543</td>
+                                                    <td><span class="badge badge-danger">No contesta</span></td>
+                                                    <td>Intentar contactar nuevamente mañana</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>10:30 AM</td>
+                                                    <td>ORD-2025-003</td>
+                                                    <td>Carlos López</td>
+                                                    <td>+57 302 456 7890</td>
+                                                    <td><span class="badge badge-success">Contactado</span></td>
+                                                    <td>Cliente confirmó que viene mañana</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+        <!-- Footer -->
+        <footer class="main-footer">
+            <strong>Copyright &copy; 2025 <a href="#">CEJO</a>.</strong>
+            Todos los derechos reservados.
+            <div class="float-right d-none d-sm-inline-block">
+                <b>Version</b> 1.0.0
+            </div>
+        </footer>
+    </div>
+    
+    <!-- Modal para Contactar Cliente -->
+    <div class="modal fade" id="modalContactarCliente" tabindex="-1" aria-labelledby="modalContactarClienteLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalContactarClienteLabel">
+                        <i class="fas fa-phone mr-2"></i>Contactar Cliente
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formContactarCliente">
+                        <div class="form-group">
+                            <label for="ordenContacto">Número de Orden</label>
+                            <input type="text" class="form-control" id="ordenContacto" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="clienteContacto">Cliente</label>
+                            <input type="text" class="form-control" id="clienteContacto" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="telefonoContacto">Teléfono</label>
+                            <input type="text" class="form-control" id="telefonoContacto" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="resultadoContacto">Resultado del Contacto</label>
+                            <select class="form-control" id="resultadoContacto" required>
+                                <option value="">Seleccionar resultado...</option>
+                                <option value="contactado">Cliente contactado exitosamente</option>
+                                <option value="no_contesta">Cliente no contesta</option>
+                                <option value="ocupado">Cliente ocupado, llamar más tarde</option>
+                                <option value="numero_incorrecto">Número incorrecto</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="observacionesContacto">Observaciones</label>
+                            <textarea class="form-control" id="observacionesContacto" rows="3" placeholder="Detalles del contacto..."></textarea>
+                        </div>
+                        <div class="form-group" id="fechaRecogidaGroup" style="display: none;">
+                            <label for="fechaRecogida">Fecha de Recogida Acordada</label>
+                            <input type="datetime-local" class="form-control" id="fechaRecogida">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-times mr-2"></i>Cancelar
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="guardarContacto()">
+                        <i class="fas fa-save mr-2"></i>Guardar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE JS -->
+<script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
+
+<script src="assets/js/usuario.js"></script>
+<script src="assets/js/tareas-pendientes.js"></script>
+
+</body>
+</html>

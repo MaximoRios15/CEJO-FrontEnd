@@ -1,0 +1,416 @@
+/* Estilos específicos para la página de Gestión de Repuestos */
+
+/* Tabs personalizados */
+.nav-tabs .nav-link {
+    border-radius: 0.375rem 0.375rem 0 0;
+    border: 1px solid #dee2e6;
+    color: #495057;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.nav-tabs .nav-link:hover {
+    border-color: #e9ecef #e9ecef #dee2e6;
+    background-color: #f8f9fa;
+    color: #007bff;
+}
+
+.nav-tabs .nav-link.active {
+    color: #007bff;
+    background-color: #fff;
+    border-color: #dee2e6 #dee2e6 #fff;
+    font-weight: 600;
+}
+
+/* Formularios */
+.form-group label {
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 0.5rem;
+}
+
+.form-control {
+    border-radius: 0.375rem;
+    border: 1px solid #ced4da;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-control:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Botones personalizados */
+.btn {
+    border-radius: 0.375rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #004085;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+}
+
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.btn-success:hover {
+    background-color: #1e7e34;
+    border-color: #1c7430;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
+}
+
+.btn-info {
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+}
+
+.btn-info:hover {
+    background-color: #117a8b;
+    border-color: #10707f;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(23, 162, 184, 0.3);
+}
+
+.btn-warning {
+    background-color: #ffc107;
+    border-color: #ffc107;
+    color: #212529;
+}
+
+.btn-warning:hover {
+    background-color: #e0a800;
+    border-color: #d39e00;
+    color: #212529;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(255, 193, 7, 0.3);
+}
+
+/* Cards */
+.card {
+    border-radius: 0.5rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    transition: box-shadow 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+    border-radius: 0.5rem 0.5rem 0 0;
+    font-weight: 600;
+}
+
+.card-primary .card-header {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+.card-success .card-header {
+    background-color: #28a745;
+    color: white;
+    border-color: #28a745;
+}
+
+.card-info .card-header {
+    background-color: #17a2b8;
+    color: white;
+    border-color: #17a2b8;
+}
+
+.card-warning .card-header {
+    background-color: #ffc107;
+    color: #212529;
+    border-color: #ffc107;
+}
+
+/* Tabla de pedidos */
+#tablaPedidos {
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+#tablaPedidos thead th {
+    background-color: #343a40;
+    color: white;
+    border: none;
+    font-weight: 600;
+    text-align: center;
+    vertical-align: middle;
+}
+
+#tablaPedidos tbody td {
+    vertical-align: middle;
+    text-align: center;
+}
+
+#tablaPedidos tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+/* Badges de prioridad */
+.badge-prioridad {
+    font-size: 0.75rem;
+    padding: 0.375rem 0.75rem;
+    border-radius: 0.375rem;
+}
+
+.badge-urgente {
+    background-color: #dc3545;
+    color: white;
+}
+
+.badge-alta {
+    background-color: #fd7e14;
+    color: white;
+}
+
+.badge-normal {
+    background-color: #6c757d;
+    color: white;
+}
+
+/* Badges de estado */
+.badge-estado {
+    font-size: 0.75rem;
+    padding: 0.375rem 0.75rem;
+    border-radius: 0.375rem;
+}
+
+.badge-pendiente {
+    background-color: #ffc107;
+    color: #212529;
+}
+
+.badge-en_proceso {
+    background-color: #17a2b8;
+    color: white;
+}
+
+.badge-completado {
+    background-color: #28a745;
+    color: white;
+}
+
+/* Info boxes de proveedores */
+.info-box {
+    border-radius: 0.5rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.info-box:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.info-box-icon {
+    border-radius: 0.5rem 0 0 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+.info-box-content {
+    padding: 1rem;
+}
+
+.info-box-text {
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.info-box-number {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.progress {
+    height: 0.25rem;
+    margin: 0.5rem 0;
+    border-radius: 0.125rem;
+}
+
+.progress-description {
+    font-size: 0.75rem;
+}
+
+.progress-description a {
+    text-decoration: none;
+    transition: opacity 0.3s ease;
+}
+
+.progress-description a:hover {
+    opacity: 0.8;
+    text-decoration: underline;
+}
+
+/* Alertas personalizadas */
+.alert {
+    border-radius: 0.5rem;
+    border: none;
+    font-weight: 500;
+}
+
+.alert-info {
+    background-color: #d1ecf1;
+    color: #0c5460;
+}
+
+/* Mis Solicitudes */
+#misSolicitudes .solicitud-item {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 0.375rem;
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+#misSolicitudes .solicitud-item:hover {
+    background-color: #e9ecef;
+    border-color: #adb5bd;
+}
+
+.solicitud-header {
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 0.25rem;
+}
+
+.solicitud-details {
+    font-size: 0.875rem;
+    color: #6c757d;
+}
+
+/* Filtros */
+.filtros-container {
+    background-color: #f8f9fa;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .nav-tabs .nav-link {
+        font-size: 0.875rem;
+        padding: 0.5rem 0.75rem;
+    }
+    
+    .info-box {
+        margin-bottom: 1rem;
+    }
+    
+    .table-responsive {
+        font-size: 0.875rem;
+    }
+    
+    .btn {
+        font-size: 0.875rem;
+        padding: 0.375rem 0.75rem;
+    }
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.3s ease;
+}
+
+/* DataTables personalización */
+.dataTables_wrapper .dataTables_length,
+.dataTables_wrapper .dataTables_filter,
+.dataTables_wrapper .dataTables_info,
+.dataTables_wrapper .dataTables_paginate {
+    margin-bottom: 0.5rem;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    border-radius: 0.375rem;
+    margin: 0 0.125rem;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: white;
+}
+
+/* Tooltips */
+.tooltip {
+    font-size: 0.875rem;
+}
+
+.tooltip-inner {
+    background-color: #343a40;
+    border-radius: 0.375rem;
+}
+
+/* Modal personalizado */
+.modal-content {
+    border-radius: 0.5rem;
+    border: none;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.modal-header {
+    border-bottom: 1px solid #dee2e6;
+    border-radius: 0.5rem 0.5rem 0 0;
+}
+
+.modal-footer {
+    border-top: 1px solid #dee2e6;
+    border-radius: 0 0 0.5rem 0.5rem;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+    background-color: transparent;
+    padding: 0;
+    margin-bottom: 0;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    content: ">";
+    color: #6c757d;
+}
+
+.breadcrumb-item a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.breadcrumb-item a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+.breadcrumb-item.active {
+    color: #6c757d;
+}
