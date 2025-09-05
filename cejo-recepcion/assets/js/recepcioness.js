@@ -172,14 +172,14 @@ function buscarClientePorDNI(dni) {
             if (response.success && response.data) {
                 // Cliente encontrado, llenar campos
                 const cliente = response.data;
-                $('#nombre').val(cliente.Nombres_Cliente || '');
-                $('#apellido').val(cliente.Apellidos_Cliente || '');
-                $('#telefono').val(cliente.Telefono_Cliente || '');
-                $('#correoElectronico').val(cliente.Email_Cliente || '');
-                $('#direccion').val(cliente.Direccion_Cliente || '');
-                $('#codigoPostal').val(cliente.Codigo_Postal_Cliente || '');
-                $('#ciudad').val(cliente.Ciudad_Cliente || '');
-                $('#provincia').val(cliente.Provincia_Cliente || '');
+                $('#nombre').val(cliente.Nombres_Clientes || '');
+                $('#apellido').val(cliente.Apellidos_Clientes || '');
+                $('#telefono').val(cliente.Telefono_Clientes || '');
+                $('#correoElectronico').val(cliente.Email_Clientes || '');
+                $('#direccion').val(cliente.Direccion_Clientes || '');
+                $('#codigoPostal').val(cliente.CodigoPostal_Clientes || '');
+                $('#ciudad').val(cliente.Ciudad_Clientes || '');
+                $('#provincia').val(cliente.Provincia_Clientes || '');
                 
                 mostrarAlerta('Cliente encontrado y datos cargados.', 'success');
             } else {
@@ -206,39 +206,54 @@ function guardarServicio() {
     
     // Recopilar datos del cliente
     const datosCliente = {
-        Nombres_Cliente: $('#nombre').val().trim(),
-        Apellidos_Cliente: $('#apellido').val().trim(),
-        DNI_Cliente: $('#numeroDocumento').val().trim(),
-        Telefono_Cliente: $('#telefono').val().trim(),
-        Email_Cliente: $('#correoElectronico').val().trim(),
-        Direccion_Cliente: $('#direccion').val().trim(),
-        Codigo_Postal_Cliente: $('#codigoPostal').val().trim(),
-        Ciudad_Cliente: $('#ciudad').val().trim(),
-        Provincia_Cliente: $('#provincia').val().trim()
+        Nombres_Clientes: $('#nombre').val().trim(),
+        Apellidos_Clientes: $('#apellido').val().trim(),
+        DNI_Clientes: $('#numeroDocumento').val().trim(),
+        Telefono_Clientes: $('#telefono').val().trim(),
+        Email_Clientes: $('#correoElectronico').val().trim(),
+        Direccion_Clientes: $('#direccion').val().trim(),
+        CodigoPostal_Clientes: $('#codigoPostal').val().trim(),
+        Ciudad_Clientes: $('#ciudad').val().trim(),
+        Provincia_Clientes: $('#provincia').val().trim()
     };
     
     // Recopilar datos del equipo
     const datosEquipo = {
-        idCategorias: $('#tipoEquipo').val(),
+        idCategorias_Equipos: $('#tipoEquipo').val(),
         Marca_Equipo: $('#marca').val(),
-        Modelo_Equipo: $('#modelo').val().trim(),
-        Fecha_Ingreso_Equipo: $('#fechaIngreso').val(),
-        Descripcion_Problema: $('#descripcionProblema').val().trim(),
-        idGarantias: $('#garantia').val() || null,
-        Accesorios_Equipo: $('#accesorios').val().trim(),
-        Numero_BR: $('#numeroBR').val().trim(),
-        Fecha_Compra: $('#fechaCompra').val() || null,
-        Numero_Factura: $('#numeroFactura').val().trim(),
-        Comercio: $('#comercio').val().trim(),
-        Localidad: $('#localidad').val().trim(),
-        Pagador: $('#pagador').val().trim()
+        Modelo_Equipos: $('#modelo').val().trim(),
+        FechaIngreso_Equipos: $('#fechaIngreso').val(),
+        DescripcionProblema_Equipos: $('#descripcionProblema').val().trim(),
+        idGarantias_Equipos: $('#garantia').val() || null,
+        Accesorios_Equipos: $('#accesorios').val().trim(),
+        NumeroBR_Equipos: $('#numeroBR').val().trim()
+    };
+    
+    // Datos de factura (si aplica)
+    const datosFactura = {
+        FechaCompra_Factura: $('#fechaCompra').val() || null,
+        NumeroFactura_Factura: $('#numeroFactura').val().trim(),
+        Comercio_Factura: $('#comercio').val().trim(),
+        Localidad_Factura: $('#localidad').val().trim(),
+        Pagador_Factura: $('#pagador').val().trim()
     };
     
     // Primero, crear o actualizar cliente
     guardarCliente(datosCliente, function(clienteId) {
         // Luego, crear equipo asociado al cliente
-        datosEquipo.idCliente = clienteId;
-        guardarEquipo(datosEquipo);
+        datosEquipo.idClientes_Equipos = clienteId;
+        
+        // Verificar si necesita crear factura (garantías T2 o T3)
+        const garantiaSeleccionada = $('#garantia option:selected').text();
+        const necesitaFactura = garantiaSeleccionada.includes('T2') || garantiaSeleccionada.includes('T3');
+        
+        guardarEquipo(datosEquipo, function(equipoId) {
+            if (necesitaFactura && equipoId) {
+                // Crear factura asociada al equipo
+                datosFactura.idEquipo_Factura = equipoId;
+                guardarFactura(datosFactura);
+            }
+        });
     });
 }
 
@@ -277,7 +292,7 @@ function guardarCliente(datosCliente, callback) {
 /**
  * Guardar equipo
  */
-function guardarEquipo(datosEquipo) {
+function guardarEquipo(datosEquipo, callback) {
     $.ajax({
         url: '/CEJO/CEJO-BackEnd/public/index.php/equipos',
         method: 'POST',
@@ -285,8 +300,14 @@ function guardarEquipo(datosEquipo) {
         contentType: 'application/json',
         data: JSON.stringify(datosEquipo),
         success: function(response) {
-            if (response.success) {
+            if (response.success && response.data) {
                 mostrarAlerta('Servicio registrado exitosamente.', 'success');
+                
+                // Llamar callback con el ID del equipo si se proporciona
+                if (callback && typeof callback === 'function') {
+                    callback(response.data.idEquipos);
+                }
+                
                 // Opcional: limpiar formulario después de un tiempo
                 setTimeout(function() {
                     if (confirm('¿Desea registrar otro servicio?')) {
@@ -306,6 +327,33 @@ function guardarEquipo(datosEquipo) {
         },
         complete: function() {
             $('#guardarBtn').prop('disabled', false).html('<i class="fas fa-save mr-2"></i>Guardar');
+        }
+    });
+}
+
+/**
+ * Guardar factura
+ */
+function guardarFactura(datosFactura) {
+    $.ajax({
+        url: '/CEJO/CEJO-BackEnd/public/index.php/facturas',
+        method: 'POST',
+        dataType: 'json',
+        contentType: 'application/json',
+        data: JSON.stringify(datosFactura),
+        success: function(response) {
+            if (response.success) {
+                mostrarAlerta('Factura registrada exitosamente.', 'success');
+            } else {
+                mostrarAlerta('Error al registrar factura: ' + (response.message || 'Error desconocido'), 'warning');
+            }
+        },
+        error: function(xhr) {
+            let mensaje = 'Error al registrar factura.';
+            if (xhr.responseJSON && xhr.responseJSON.message) {
+                mensaje = xhr.responseJSON.message;
+            }
+            mostrarAlerta(mensaje, 'warning');
         }
     });
 }
