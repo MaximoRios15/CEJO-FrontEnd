@@ -83,9 +83,9 @@ $(document).ready(function() {
  * Cargar categorías de equipos desde la base de datos
  */
 function cargarCategoriasEquipos() {
-    console.log('Ejecutando cargarCategoriasEquipos - URL:', '/CEJO/CEJO-BackEnd/public/index.php/categorias-equipos');
+    console.log('Ejecutando cargarCategoriasEquipos - URL:', `${BASE_URL}/categorias-equipos`);
     $.ajax({
-        url: '/CEJO/CEJO-BackEnd/public/index.php/categorias-equipos',
+        url: `${BASE_URL}/categorias-equipos`,
         method: 'GET',
         dataType: 'json',
         success: function(response) {
@@ -109,9 +109,9 @@ function cargarCategoriasEquipos() {
  * Cargar tipos de garantías desde la base de datos
  */
 function cargarTiposGarantias() {
-    console.log('Ejecutando cargarTiposGarantias - URL:', '/CEJO/CEJO-BackEnd/public/index.php/garantias');
+    console.log('Ejecutando cargarTiposGarantias - URL:', `${BASE_URL}/garantias`);
     $.ajax({
-        url: '/CEJO/CEJO-BackEnd/public/index.php/garantias',
+        url: `${BASE_URL}/garantias`,
         method: 'GET',
         dataType: 'json',
         success: function(response) {
@@ -135,9 +135,9 @@ function cargarTiposGarantias() {
  * Cargar marcas de equipos desde la tabla de proveedores
  */
 function cargarMarcasEquipos() {
-    console.log('Ejecutando cargarMarcasEquipos - URL:', '/CEJO/CEJO-BackEnd/public/index.php/proveedores');
+    console.log('Ejecutando cargarMarcasEquipos - URL:', `${BASE_URL}/proveedores`);
     $.ajax({
-        url: '/CEJO/CEJO-BackEnd/public/index.php/proveedores',
+        url: `${BASE_URL}/proveedores`,
         method: 'GET',
         dataType: 'json',
         success: function(response) {
@@ -172,14 +172,14 @@ function buscarClientePorDNI(dni) {
             if (response.success && response.data) {
                 // Cliente encontrado, llenar campos
                 const cliente = response.data;
-                $('#nombre').val(cliente.Nombres_Clientes || '');
-                $('#apellido').val(cliente.Apellidos_Clientes || '');
-                $('#telefono').val(cliente.Telefono_Clientes || '');
-                $('#correoElectronico').val(cliente.Email_Clientes || '');
-                $('#direccion').val(cliente.Direccion_Clientes || '');
-                $('#codigoPostal').val(cliente.CodigoPostal_Clientes || '');
-                $('#ciudad').val(cliente.Ciudad_Clientes || '');
-                $('#provincia').val(cliente.Provincia_Clientes || '');
+                $('#nombre').val(cliente.Nombres_Cliente || '');
+                $('#apellido').val(cliente.Apellidos_Cliente || '');
+                $('#telefono').val(cliente.Telefono_Cliente || '');
+                $('#correoElectronico').val(cliente.Email_Cliente || '');
+                $('#direccion').val(cliente.Direccion_Cliente || '');
+                $('#codigoPostal').val(cliente.Codigo_Postal_Cliente || '');
+                $('#ciudad').val(cliente.Ciudad_Cliente || '');
+                $('#provincia').val(cliente.Provincia_Cliente || '');
                 
                 mostrarAlerta('Cliente encontrado y datos cargados.', 'success');
             } else {
@@ -220,40 +220,21 @@ function guardarServicio() {
     // Recopilar datos del equipo
     const datosEquipo = {
         idCategorias_Equipos: $('#tipoEquipo').val(),
-        Marca_Equipo: $('#marca').val(),
+        Marca_Equipo: $('#marca option:selected').text() !== 'Seleccionar marca' ? $('#marca option:selected').text() : '',
         Modelo_Equipos: $('#modelo').val().trim(),
         FechaIngreso_Equipos: $('#fechaIngreso').val(),
         DescripcionProblema_Equipos: $('#descripcionProblema').val().trim(),
         idGarantias_Equipos: $('#garantia').val() || null,
         Accesorios_Equipos: $('#accesorios').val().trim(),
-        NumeroBR_Equipos: $('#numeroBR').val().trim()
-    };
-    
-    // Datos de factura (si aplica)
-    const datosFactura = {
-        FechaCompra_Factura: $('#fechaCompra').val() || null,
-        NumeroFactura_Factura: $('#numeroFactura').val().trim(),
-        Comercio_Factura: $('#comercio').val().trim(),
-        Localidad_Factura: $('#localidad').val().trim(),
-        Pagador_Factura: $('#pagador').val().trim()
+        NroBR_Equipo: $('#numeroBR').val().trim(),
+        idEstados_Equipos: 1 // Estado inicial: Recibido
     };
     
     // Primero, crear o actualizar cliente
     guardarCliente(datosCliente, function(clienteId) {
         // Luego, crear equipo asociado al cliente
         datosEquipo.idClientes_Equipos = clienteId;
-        
-        // Verificar si necesita crear factura (garantías T2 o T3)
-        const garantiaSeleccionada = $('#garantia option:selected').text();
-        const necesitaFactura = garantiaSeleccionada.includes('T2') || garantiaSeleccionada.includes('T3');
-        
-        guardarEquipo(datosEquipo, function(equipoId) {
-            if (necesitaFactura && equipoId) {
-                // Crear factura asociada al equipo
-                datosFactura.idEquipo_Factura = equipoId;
-                guardarFactura(datosFactura);
-            }
-        });
+        guardarEquipo(datosEquipo);
     });
 }
 
@@ -262,7 +243,7 @@ function guardarServicio() {
  */
 function guardarCliente(datosCliente, callback) {
     $.ajax({
-        url: '/CEJO/CEJO-BackEnd/public/index.php/clientes',
+        url: BASE_URL + '/clientes',
         method: 'POST',
         dataType: 'json',
         contentType: 'application/json',
@@ -272,7 +253,7 @@ function guardarCliente(datosCliente, callback) {
         },
         success: function(response) {
             if (response.success && response.data) {
-                callback(response.data.idCliente);
+                callback(response.data.idClientes);
             } else {
                 mostrarAlerta('Error al guardar cliente: ' + (response.message || 'Error desconocido'), 'error');
                 $('#guardarBtn').prop('disabled', false).html('<i class="fas fa-save mr-2"></i>Guardar');
@@ -292,22 +273,16 @@ function guardarCliente(datosCliente, callback) {
 /**
  * Guardar equipo
  */
-function guardarEquipo(datosEquipo, callback) {
+function guardarEquipo(datosEquipo) {
     $.ajax({
-        url: '/CEJO/CEJO-BackEnd/public/index.php/equipos',
+        url: BASE_URL + '/equipos',
         method: 'POST',
         dataType: 'json',
         contentType: 'application/json',
         data: JSON.stringify(datosEquipo),
         success: function(response) {
-            if (response.success && response.data) {
+            if (response.success) {
                 mostrarAlerta('Servicio registrado exitosamente.', 'success');
-                
-                // Llamar callback con el ID del equipo si se proporciona
-                if (callback && typeof callback === 'function') {
-                    callback(response.data.idEquipos);
-                }
-                
                 // Opcional: limpiar formulario después de un tiempo
                 setTimeout(function() {
                     if (confirm('¿Desea registrar otro servicio?')) {
@@ -327,33 +302,6 @@ function guardarEquipo(datosEquipo, callback) {
         },
         complete: function() {
             $('#guardarBtn').prop('disabled', false).html('<i class="fas fa-save mr-2"></i>Guardar');
-        }
-    });
-}
-
-/**
- * Guardar factura
- */
-function guardarFactura(datosFactura) {
-    $.ajax({
-        url: '/CEJO/CEJO-BackEnd/public/index.php/facturas',
-        method: 'POST',
-        dataType: 'json',
-        contentType: 'application/json',
-        data: JSON.stringify(datosFactura),
-        success: function(response) {
-            if (response.success) {
-                mostrarAlerta('Factura registrada exitosamente.', 'success');
-            } else {
-                mostrarAlerta('Error al registrar factura: ' + (response.message || 'Error desconocido'), 'warning');
-            }
-        },
-        error: function(xhr) {
-            let mensaje = 'Error al registrar factura.';
-            if (xhr.responseJSON && xhr.responseJSON.message) {
-                mensaje = xhr.responseJSON.message;
-            }
-            mostrarAlerta(mensaje, 'warning');
         }
     });
 }
