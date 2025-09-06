@@ -83,9 +83,9 @@ $(document).ready(function() {
  * Cargar categorías de equipos desde la base de datos
  */
 function cargarCategoriasEquipos() {
-    console.log('Ejecutando cargarCategoriasEquipos - URL:', '/CEJO/CEJO-BackEnd/public/index.php/categorias-equipos');
+    console.log('Ejecutando cargarCategoriasEquipos - URL:', `${BASE_URL}/categorias-equipos`);
     $.ajax({
-        url: '/CEJO/CEJO-BackEnd/public/index.php/categorias-equipos',
+        url: `${BASE_URL}/categorias-equipos`,
         method: 'GET',
         dataType: 'json',
         success: function(response) {
@@ -109,9 +109,9 @@ function cargarCategoriasEquipos() {
  * Cargar tipos de garantías desde la base de datos
  */
 function cargarTiposGarantias() {
-    console.log('Ejecutando cargarTiposGarantias - URL:', '/CEJO/CEJO-BackEnd/public/index.php/garantias');
+    console.log('Ejecutando cargarTiposGarantias - URL:', `${BASE_URL}/garantias`);
     $.ajax({
-        url: '/CEJO/CEJO-BackEnd/public/index.php/garantias',
+        url: `${BASE_URL}/garantias`,
         method: 'GET',
         dataType: 'json',
         success: function(response) {
@@ -135,9 +135,9 @@ function cargarTiposGarantias() {
  * Cargar marcas de equipos desde la tabla de proveedores
  */
 function cargarMarcasEquipos() {
-    console.log('Ejecutando cargarMarcasEquipos - URL:', '/CEJO/CEJO-BackEnd/public/index.php/proveedores');
+    console.log('Ejecutando cargarMarcasEquipos - URL:', `${BASE_URL}/proveedores`);
     $.ajax({
-        url: '/CEJO/CEJO-BackEnd/public/index.php/proveedores',
+        url: `${BASE_URL}/proveedores`,
         method: 'GET',
         dataType: 'json',
         success: function(response) {
@@ -206,38 +206,34 @@ function guardarServicio() {
     
     // Recopilar datos del cliente
     const datosCliente = {
-        Nombres_Cliente: $('#nombre').val().trim(),
-        Apellidos_Cliente: $('#apellido').val().trim(),
-        DNI_Cliente: $('#numeroDocumento').val().trim(),
-        Telefono_Cliente: $('#telefono').val().trim(),
-        Email_Cliente: $('#correoElectronico').val().trim(),
-        Direccion_Cliente: $('#direccion').val().trim(),
-        Codigo_Postal_Cliente: $('#codigoPostal').val().trim(),
-        Ciudad_Cliente: $('#ciudad').val().trim(),
-        Provincia_Cliente: $('#provincia').val().trim()
+        Nombres_Clientes: $('#nombre').val().trim(),
+        Apellidos_Clientes: $('#apellido').val().trim(),
+        DNI_Clientes: $('#numeroDocumento').val().trim(),
+        Telefono_Clientes: $('#telefono').val().trim(),
+        Email_Clientes: $('#correoElectronico').val().trim(),
+        Direccion_Clientes: $('#direccion').val().trim(),
+        CodigoPostal_Clientes: $('#codigoPostal').val().trim(),
+        Ciudad_Clientes: $('#ciudad').val().trim(),
+        Provincia_Clientes: $('#provincia').val().trim()
     };
     
     // Recopilar datos del equipo
     const datosEquipo = {
-        idCategorias: $('#tipoEquipo').val(),
-        Marca_Equipo: $('#marca').val(),
-        Modelo_Equipo: $('#modelo').val().trim(),
-        Fecha_Ingreso_Equipo: $('#fechaIngreso').val(),
-        Descripcion_Problema: $('#descripcionProblema').val().trim(),
-        idGarantias: $('#garantia').val() || null,
-        Accesorios_Equipo: $('#accesorios').val().trim(),
-        Numero_BR: $('#numeroBR').val().trim(),
-        Fecha_Compra: $('#fechaCompra').val() || null,
-        Numero_Factura: $('#numeroFactura').val().trim(),
-        Comercio: $('#comercio').val().trim(),
-        Localidad: $('#localidad').val().trim(),
-        Pagador: $('#pagador').val().trim()
+        idCategorias_Equipos: $('#tipoEquipo').val(),
+        Marca_Equipo: $('#marca option:selected').text() !== 'Seleccionar marca' ? $('#marca option:selected').text() : '',
+        Modelo_Equipos: $('#modelo').val().trim(),
+        FechaIngreso_Equipos: $('#fechaIngreso').val(),
+        DescripcionProblema_Equipos: $('#descripcionProblema').val().trim(),
+        idGarantias_Equipos: $('#garantia').val() || null,
+        Accesorios_Equipos: $('#accesorios').val().trim(),
+        NroBR_Equipo: $('#numeroBR').val().trim(),
+        idEstados_Equipos: 1 // Estado inicial: Recibido
     };
     
     // Primero, crear o actualizar cliente
     guardarCliente(datosCliente, function(clienteId) {
         // Luego, crear equipo asociado al cliente
-        datosEquipo.idCliente = clienteId;
+        datosEquipo.idClientes_Equipos = clienteId;
         guardarEquipo(datosEquipo);
     });
 }
@@ -247,7 +243,7 @@ function guardarServicio() {
  */
 function guardarCliente(datosCliente, callback) {
     $.ajax({
-        url: '/CEJO/CEJO-BackEnd/public/index.php/clientes',
+        url: BASE_URL + '/clientes',
         method: 'POST',
         dataType: 'json',
         contentType: 'application/json',
@@ -257,7 +253,7 @@ function guardarCliente(datosCliente, callback) {
         },
         success: function(response) {
             if (response.success && response.data) {
-                callback(response.data.idCliente);
+                callback(response.data.idClientes);
             } else {
                 mostrarAlerta('Error al guardar cliente: ' + (response.message || 'Error desconocido'), 'error');
                 $('#guardarBtn').prop('disabled', false).html('<i class="fas fa-save mr-2"></i>Guardar');
@@ -279,7 +275,7 @@ function guardarCliente(datosCliente, callback) {
  */
 function guardarEquipo(datosEquipo) {
     $.ajax({
-        url: '/CEJO/CEJO-BackEnd/public/index.php/equipos',
+        url: BASE_URL + '/equipos',
         method: 'POST',
         dataType: 'json',
         contentType: 'application/json',
